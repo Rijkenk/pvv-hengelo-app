@@ -13,6 +13,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Verbinding met Notubiz testen
+        continue-on-error: true
+        run: |
+          getent ahosts api.notubiz.nl || true
+          curl -4 -sS -m 20 -o /dev/null -w "IPv4: %{http_code}\n" "https://api.notubiz.nl/organisations/1734?format=json" || true
+          curl -6 -sS -m 20 -o /dev/null -w "IPv6: %{http_code}\n" "https://api.notubiz.nl/organisations/1734?format=json" || true
       - run: python3 scripts/notubiz_agenda.py
       - name: Wijzigingen opslaan
         run: |
