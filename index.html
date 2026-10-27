@@ -201,8 +201,11 @@ function renderAgenda(){
     list.innerHTML = `<div class="card">Nog geen vergaderingen opgehaald. De agenda vult zich zodra de koppeling met Notubiz draait.</div>`;
     card.innerHTML = `<div class="label">Eerstvolgende</div><h3>Nog geen gegevens</h3>`; return;
   }
-  list.innerHTML = EVENTS.map(e => {
-    const d = new Date(e.t), past = new Date(e.end||e.t) < now, [lbl, cls] = TYPE[e.type] || TYPE.overig, link = safe(e.link);
+  // Vergaderingen die al geweest zijn tonen we niet (een vergadering zonder eindtijd telt tot het eind van die dag).
+  const upcoming = EVENTS.filter(e => { const x = new Date(e.end||e.t); if(!e.end) x.setHours(23,59,59); return x >= now; });
+  if(!upcoming.length){ list.innerHTML = `<div class="card">Geen geplande vergaderingen.</div>`; }
+  else list.innerHTML = upcoming.map(e => {
+    const d = new Date(e.t), past = false, [lbl, cls] = TYPE[e.type] || TYPE.overig, link = safe(e.link);
     return `<div class="card ev${past?" past":""}">
       <div class="date"><div class="m">${DAYS[d.getDay()]}</div><div class="d">${d.getDate()}</div><div class="m">${MONTHS[d.getMonth()]}</div></div>
       <div style="min-width:0"><span class="pill ${cls}">${lbl}</span>${e.noTime?"":`<span class="src">${fmtTime(d)} uur</span>`}
