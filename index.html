@@ -246,22 +246,50 @@ function show(v){
 }
 document.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click", () => show(b.dataset.tab)));
 
+// Live ophalen bij Notubiz vanaf het toestel zelf (Notubiz weert servers in datacenters, zoals GitHub).
+// Lukt dat niet, dan blijft de laatst opgeslagen agenda uit data.json staan.
+const NB = "https://api.notubiz.nl", NB_ORG = 1734, SITE = "https://hengelo.raadsinformatie.nl";
+const GREMIA = {2086:"Gemeenteraad", 11979:"Politieke Markt"};
+const ymd = d => d.toISOString().slice(0,10);
+async function loadLive(){
+  const van = new Date(Date.now()-14*864e5), tot = new Date(Date.now()+90*864e5);
+  const q = new URLSearchParams({organisation_id:NB_ORG, date_from:ymd(van)+" 00:00:00", date_to:ymd(tot)+" 23:59:59", format:"json", version:"1.10.8"});
+  const res = await fetch(`${NB}/events?${q}`);
+  if(!res.ok) throw new Error(res.status);
+  const raw = await res.json();
+  return (raw.events||[]).filter(e => !e.canceled && !e.inactive && !e.confidential && e.plannings && e.plannings[0]).map(e => {
+    const g = GREMIA[(e.gremium||{}).id] || "";
+    const a = (e.attributes||[]).find(x => x.id === 1);
+    const title = (a && a.value) || g || (e.type === "assembly" ? "Bijeenkomst" : "Vergadering");
+    const t = (title+" "+g).toLowerCase();
+    return {t:e.plannings[0].start_date.replace(" ","T").slice(0,16), type:/politieke markt|commissie/.test(t)?"beraad":/raad/.test(t)?"raad":"overig",
+      title, desc:"", link:`${SITE}/vergadering/${e.id}`};
+  }).sort((x,y) => x.t.localeCompare(y.t));
+}
 async function loadData(){
+  let b = null;
   try{
     const res = await fetch("data.json", {cache:"no-store"});
     if(!res.ok) throw new Error(res.status);
     const d = await res.json();
     if(Array.isArray(d.events)) EVENTS = d.events;
-    renderAgenda();
-    return d.bijgewerkt || "";
-  }catch(e){ return null; }
+    renderAgenda(); b = d.bijgewerkt || "";
+  }catch(e){}
+  try{
+    const live = await loadLive();
+    if(live.length){ EVENTS = live; renderAgenda(); store("pvvh-agenda", live); return "live"; }
+  }catch(e){
+    const c = store("pvvh-agenda"); if(c && c.length && b === null){ EVENTS = c; renderAgenda(); }
+  }
+  return b;
 }
 async function refreshAll(){
   const btn = document.getElementById("refresh"), stamp = document.getElementById("stamp");
   btn.classList.add("busy"); btn.disabled = true;
   const b = await loadData();
   stamp.textContent = b === null ? "Vernieuwen mislukt; je ziet de laatst geladen gegevens."
-    : b ? `Agenda van ${b.split("-").reverse().join("-")} · geladen om ${fmtTime(new Date())}` : "";
+    : b === "live" ? `Agenda live uit Notubiz · ${fmtTime(new Date())}`
+    : b ? `Agenda van ${b.split("-").reverse().join("-")} (live ophalen lukte niet) · ${fmtTime(new Date())}` : "";
   btn.classList.remove("busy"); btn.disabled = false;
 }
 document.getElementById("refresh").addEventListener("click", refreshAll);

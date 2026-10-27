@@ -1,7 +1,6 @@
 name: Agenda Hengelo ophalen
+# Staat op handmatig: Notubiz weert GitHub-servers (time-out, 28-10-2026). De app haalt de agenda live op vanaf het toestel.
 on:
-  schedule:
-    - cron: "17 4 * * *"   # elke nacht
   workflow_dispatch:
 permissions:
   contents: write
