@@ -139,7 +139,7 @@ details.old summary{font-weight:700}
 <body>
 <header><div class="hwrap">
   <div class="logo" aria-hidden="true">PVV</div>
-  <div class="htxt" style="flex:1"><b>Fractie PVV Hengelo</b><span>Proefversie · Jeanet Nijhof-Leeuw</span><span id="stamp" class="stamp"></span></div>
+  <div class="htxt" style="flex:1"><b>Fractie PVV Hengelo</b><span>Proefversie · fractie J. Griesen</span><span id="stamp" class="stamp"></span></div>
   <button id="refresh" class="refresh" type="button" aria-label="Vernieuwen"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 10-2.3 5.7M20 4v7h-7"/></svg><span>Vernieuwen</span></button>
 </div></header>
 <main>
@@ -162,7 +162,7 @@ details.old summary{font-weight:700}
       <p style="margin:4px 0 0">Burgemeester Sander Schelberg. Wethouders: Benno Brand (BurgerBelangen), Nico-Tom Pen (GroenLinks-PvdA), Mitchell Boers (VVD), Maike Warrink (CDA), Annemieke Traag (D66).</p>
       <p class="src" style="margin:6px 0 0">Bron: <a href="https://www.hengelo.nl/Welkom-in-Hengelo/Beheer/nieuws/Nieuwe-college-vol-energie-van-start.html" target="_blank" rel="noopener">gemeente Hengelo, 3-6-2026</a>.</p></div>
     <div id="raadTables" class="stack"></div>
-    <p class="src">Raadsleden: <a href="https://www.1twente.nl/artikel/6069623/zo-gaat-de-nieuwe-hengelose-raad-eruitzien-hoewel-er-nog-altijd-het-nodige-kan-veranderen" target="_blank" rel="noopener">1Twente, 26-3-2026</a>. De vier raadsleden die wethouder werden zijn eruit gehaald; hun opvolgers staan nog niet in deze lijst. Fractievoorzitter VVD: <a href="https://www.twentefm.nl/artikel/6174649/nieuw-college-hengelo-gaat-door-op-ingeslagen-weg-maar-denkt-niet-langer-in-hokjes" target="_blank" rel="noopener">Twente FM, 4-6-2026</a>; D66: <a href="https://d66.nl/hengelo/nieuws/nieuw-college-en-coalitieprogramma/" target="_blank" rel="noopener">D66 Hengelo</a>. Actuele lijst: <a href="https://www.hengelo.nl/Bestuur-en-Organisatie/1607-Gemeenteraad/Onze-raadsleden.html" target="_blank" rel="noopener">hengelo.nl, onze raadsleden</a>.</p>
+    <p class="src">Raadsleden en fractievertegenwoordigers: <a href="https://hengelo.raadsinformatie.nl/leden" target="_blank" rel="noopener">hengelo.raadsinformatie.nl/leden</a>, stand 28-10-2026. Die pagina toont per fractie maximaal vijf namen; bij BurgerBelangen ontbreken er daardoor twee.</p>
   </div>
 </section>
 
@@ -224,28 +224,29 @@ function renderAgenda(){
     ${safe(next.link)?`<p style="margin:6px 0 0"><a href="${safe(next.link)}" target="_blank" rel="noopener">Agenda en stukken</a></p>`:""}`;
 }
 
-// Gemeenteraad Hengelo. [fractie, zetels, coalitie (1/0), raadsleden]. "*" = fractievoorzitter volgens bron.
-// Opvolgers van de wethouders Pen, Boers, Warrink en Traag zijn nog niet bekend uit een openbare bron: aangegeven met "opvolger".
+// Gemeenteraad Hengelo volgens hengelo.raadsinformatie.nl/leden (stand 28-10-2026).
+// [fractie, zetels, coalitie (1/0), raadsleden ("*" = fractievoorzitter), fractievertegenwoordigers, compleet]
+// De bronpagina toont per fractie maximaal vijf personen; bij BurgerBelangen ontbreken daardoor twee raadsleden.
 const RAAD = [
-  ["BurgerBelangen Hengelo",7,1,["Jeffrey Scholten","Han Daals","Maike Kloet","Gaby Mensink","Tonny Noordman","Geert Wieffer","Zohra Hammami"]],
-  ["GroenLinks-PvdA",5,1,["Nicolien Boekhoudt","Abby Gomez","Else Mooijman","Judith Timte","opvolger"]],
-  ["VVD",5,1,["Sander Janssen*","Maureen Fonteijn-Bekhuis","Gerrit Megelink","Brigiet Schoemaker-Olde Olthof","opvolger"]],
-  ["CDA",4,1,["Ron Wesseling","Nuri Akfidan","Bernadette Morskieft","opvolger"]],
-  ["D66",3,1,["Sebastiaan van der Pal*","Remko Lulof","opvolger"]],
-  ["SP",3,0,["Hugo Koetsveld","Jolanda de Lang","Vincent Mulder"]],
-  ["ANDERS!",3,0,["Glenn Dedecker","Seviye van Wier-Koca","Renée-Denise van der Pijll"]],
-  ["Forum voor Democratie",3,0,["Brian Geertshuis","Jannes Rutterkamp","Titia Terpstra"]],
-  ["PVV",1,0,["Jeanet Nijhof-Leeuw"]],
-  ["Pro Hengelo",1,0,["Frank Peters"]],
-  ["Hengelose Burgers",1,0,["Herbert Capelle"]],
-  ["50Plus",1,0,["William ter Beek"]]
+  ["BurgerBelangen Hengelo",7,1,["J.F. Daals*","J.J. Bertens","Z. Hammami","M. Kloet","A.J. Noordman"],[],false],
+  ["GroenLinks-PvdA",5,1,["N. Boekhoudt*","A.K. Gomez","S.P.V. Honer","E.M. Mooijman","J. Timte"],[],true],
+  ["VVD",5,1,["S.M. Janssen*","M.E.H. Fonteijn-Bekhuis","G.J.P. Megelink","B.J.M. Schoemaker-Olde Olthof","C. van der Zweth-Maijer"],[],true],
+  ["CDA",4,1,["R.J.S. Wesseling*","N. Akfidan","B.F.M. Morskieft","J. Wachtmeester"],["A.M. Mulder"],true],
+  ["D66",3,1,["W.S. van der Pal*","S.N. Koornstra","R. Lulof"],["G.H.P. Ebberink","E.A.K. Visser"],true],
+  ["SP",3,0,["H. Koetsveld*","C.L. van den Berg","G.J.J. Vennegoor"],["J.A. de Lang","P.W.J. Rolefes"],true],
+  ["ANDERS!",3,0,["G.E.A. Dedecker*","R.D. van der Pijll","S. van Wier-Koca"],["C. Albostanli","J.M. ter Braak"],true],
+  ["Forum voor Democratie",3,0,["B. Geertshuis*","L.A. Barendse","J. Rutterkamp"],["B.A. Bolink","R.B.J. Kieftenbeld"],true],
+  ["PVV",1,0,["J. Griesen*"],["C.B.G. Benerink","S.C. de Jong"],true],
+  ["Pro Hengelo",1,0,["F. Peters*"],["E. van der Brugh","B.G. van Wakeren"],true],
+  ["Hengelose Burgers",1,0,["H.E. Capelle*"],[],true],
+  ["50PLUS",1,0,["W.A.J. ter Beek*"],["P.M.C.A. Postma","P.R. Waldt"],true]
 ];
-const naam = n => n === "opvolger" ? `<i style="color:var(--muted)">opvolger wethouder nog niet bekend</i>` : n.endsWith("*") ? `<b>${esc(n.slice(0,-1))}</b> (fractievoorzitter)` : esc(n);
+const naam = n => n.endsWith("*") ? `<b>${esc(n.slice(0,-1))}</b> (fractievoorzitter)` : esc(n);
 function raadTable(coal){
   const rows = RAAD.filter(r => r[2]===coal), seats = rows.reduce((a,r)=>a+r[1],0);
   return `<div><h3 style="margin:8px 0"><span class="pill ${coal?"p-beraad":"p-raad"}">${coal?"Coalitie":"Oppositie"}</span>${seats} zetels</h3>
   <div class="tablewrap"><table><thead><tr><th>Fractie</th><th style="text-align:right">Zetels</th><th>Raadsleden</th></tr></thead>
-  <tbody>${rows.map(([f,z,,m]) => `<tr class="${f==="PVV"?"pvv":""}"><td>${esc(f)}</td><td class="z">${z}</td><td>${m.map(naam).join(", ")}</td></tr>`).join("")}</tbody></table></div></div>`;
+  <tbody>${rows.map(([f,z,,m,fv,ok]) => `<tr class="${f==="PVV"?"pvv":""}"><td>${esc(f)}</td><td class="z">${z}</td><td>${m.map(naam).join(", ")}${ok?"":`, <i style="color:var(--muted)">+${z-m.length} niet in bron zichtbaar</i>`}${fv.length?`<span class="src" style="display:block;margin-top:2px">Fractievertegenwoordigers: ${fv.map(esc).join(", ")}</span>`:""}</td></tr>`).join("")}</tbody></table></div></div>`;
 }
 document.getElementById("raadTables").innerHTML = raadTable(1) + raadTable(0);
 
