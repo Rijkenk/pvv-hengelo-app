@@ -1,0 +1,55 @@
+{
+ "bijgewerkt": "2026-10-28",
+ "bron": "Notubiz-API, organisatie 1734 (handmatig overgenomen uit browser, 28-10-2026)",
+ "events": [
+  {
+   "t": "2026-10-28T19:30",
+   "type": "raad",
+   "title": "Gemeenteraad",
+   "desc": "21 agendapunten.",
+   "link": "https://hengelo.raadsinformatie.nl/vergadering/1418297"
+  },
+  {
+   "t": "2026-11-10T19:30",
+   "type": "beraad",
+   "title": "Politieke Markt",
+   "desc": "Parallelle sessies (Notubiz: Politieke Markt (parallel)).",
+   "link": "https://hengelo.raadsinformatie.nl/vergadering/1418326"
+  },
+  {
+   "t": "2026-11-11T17:00",
+   "type": "raad",
+   "title": "Gemeenteraad (2e Beleidsrapportage en Beleidsbegroting)",
+   "desc": "",
+   "link": "https://hengelo.raadsinformatie.nl/vergadering/1418298"
+  },
+  {
+   "t": "2026-11-24T19:30",
+   "type": "beraad",
+   "title": "Politieke Markt",
+   "desc": "Parallelle sessies (Notubiz: Politieke Markt (parallel)).",
+   "link": "https://hengelo.raadsinformatie.nl/vergadering/1418327"
+  },
+  {
+   "t": "2026-11-25T19:30",
+   "type": "raad",
+   "title": "Gemeenteraad",
+   "desc": "",
+   "link": "https://hengelo.raadsinformatie.nl/vergadering/1418299"
+  },
+  {
+   "t": "2026-12-15T19:30",
+   "type": "beraad",
+   "title": "Politieke Markt",
+   "desc": "Parallelle sessies (Notubiz: Politieke Markt (parallel)).",
+   "link": "https://hengelo.raadsinformatie.nl/vergadering/1418328"
+  },
+  {
+   "t": "2026-12-16T19:30",
+   "type": "raad",
+   "title": "Gemeenteraad",
+   "desc": "",
+   "link": "https://hengelo.raadsinformatie.nl/vergadering/1418300"
+  }
+ ]
+}

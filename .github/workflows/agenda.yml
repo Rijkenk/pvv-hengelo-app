@@ -1,0 +1,22 @@
+name: Agenda Hengelo ophalen
+on:
+  schedule:
+    - cron: "17 4 * * *"   # elke nacht
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  agenda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 scripts/notubiz_agenda.py
+      - name: Wijzigingen opslaan
+        run: |
+          git config user.name "agenda-bot"
+          git config user.email "agenda-bot@users.noreply.github.com"
+          git add data.json notubiz-org.json || true
+          git diff --cached --quiet || git commit -m "Agenda Hengelo bijgewerkt" && git push
