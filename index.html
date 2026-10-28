@@ -241,12 +241,23 @@ const RAAD = [
   ["Hengelose Burgers",1,0,["H.E. Capelle*"],[],true],
   ["50PLUS",1,0,["W.A.J. ter Beek*"],["P.M.C.A. Postma","P.R. Waldt"],true]
 ];
-const naam = n => n.endsWith("*") ? `<b>${esc(n.slice(0,-1))}</b> (fractievoorzitter)` : esc(n);
+// Profielpagina's op hengelo.raadsinformatie.nl (id's uit de ledenpagina). Zonder bekend id linkt de naam naar de ledenpagina.
+const PROFILE = {"J.F. Daals":257769,"J.J. Bertens":265295,"Z. Hammami":257809,"N. Boekhoudt":257859,"A.K. Gomez":257864,"S.P.V. Honer":269062,
+  "S.M. Janssen":257816,"M.E.H. Fonteijn-Bekhuis":265235,"G.J.P. Megelink":265252,"R.J.S. Wesseling":257858,"N. Akfidan":257857,"B.F.M. Morskieft":257856,
+  "W.S. van der Pal":257869,"S.N. Koornstra":262043,"R. Lulof":257874,"H. Koetsveld":257852,"C.L. van den Berg":265287,"G.J.J. Vennegoor":257855,
+  "G.E.A. Dedecker":257875,"R.D. van der Pijll":257949,"S. van Wier-Koca":257876,"B. Geertshuis":257889,"L.A. Barendse":265289,"J. Rutterkamp":265257,
+  "J. Griesen":257961,"C.B.G. Benerink":257886,"S.C. de Jong":269063,"H.E. Capelle":257887,"F. Peters":257877,"E. van der Brugh":257878,
+  "B.G. van Wakeren":257959,"W.A.J. ter Beek":265403,"P.M.C.A. Postma":269065,"P.R. Waldt":269067};
+function person(n){
+  const id = PROFILE[n], url = id ? `https://hengelo.raadsinformatie.nl/leden/lid/${id}` : "https://hengelo.raadsinformatie.nl/leden";
+  return `<a class="person" href="${url}" target="_blank" rel="noopener" title="${id?"Profiel":"Ledenpagina"} op hengelo.raadsinformatie.nl">${esc(n)}</a>`;
+}
+const naam = n => n.endsWith("*") ? `<b>${person(n.slice(0,-1))}</b> (fractievoorzitter)` : person(n);
 function raadTable(coal){
   const rows = RAAD.filter(r => r[2]===coal), seats = rows.reduce((a,r)=>a+r[1],0);
   return `<div><h3 style="margin:8px 0"><span class="pill ${coal?"p-beraad":"p-raad"}">${coal?"Coalitie":"Oppositie"}</span>${seats} zetels</h3>
   <div class="tablewrap"><table><thead><tr><th>Fractie</th><th style="text-align:right">Zetels</th><th>Raadsleden</th></tr></thead>
-  <tbody>${rows.map(([f,z,,m,fv,ok]) => `<tr class="${f==="PVV"?"pvv":""}"><td>${esc(f)}</td><td class="z">${z}</td><td>${m.map(naam).join(", ")}${ok?"":`, <i style="color:var(--muted)">+${z-m.length} niet in bron zichtbaar</i>`}${fv.length?`<span class="src" style="display:block;margin-top:2px">Fractievertegenwoordigers: ${fv.map(esc).join(", ")}</span>`:""}</td></tr>`).join("")}</tbody></table></div></div>`;
+  <tbody>${rows.map(([f,z,,m,fv,ok]) => `<tr class="${f==="PVV"?"pvv":""}"><td>${esc(f)}</td><td class="z">${z}</td><td>${m.map(naam).join(", ")}${ok?"":`, <i style="color:var(--muted)">+${z-m.length} niet in bron zichtbaar</i>`}${fv.length?`<span class="src" style="display:block;margin-top:2px">Fractievertegenwoordigers: ${fv.map(person).join(", ")}</span>`:""}</td></tr>`).join("")}</tbody></table></div></div>`;
 }
 document.getElementById("raadTables").innerHTML = raadTable(1) + raadTable(0);
 
